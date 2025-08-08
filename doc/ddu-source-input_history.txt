@@ -1,0 +1,66 @@
+*ddu-source-input_history*	input_history source for ddu.vim
+
+Author: Shougo <Shougo.Matsu at gmail.com>
+License: MIT license
+
+CONTENTS                                   *ddu-source-input_history-contents*
+
+Introduction		|ddu-source-input_history-introduction|
+Install			|ddu-source-input_history-install|
+Examples		|ddu-source-input_history-examples|
+Source Params		|ddu-source-input_history-params|
+Kind Actions		|ddu-kind-input_history-actions|
+Kind Params		|ddu-kind-input_history-params|
+FAQ			|ddu-source-input_history-faq|
+
+
+==============================================================================
+INTRODUCTION                           *ddu-source-input_history-introduction*
+
+This source collects input histories from items.
+
+Note: It must be called from UI plugin.
+Note: It does not close current UI.
+
+
+==============================================================================
+INSTALL                                     *ddu-source-input_history-install*
+
+Please install both "ddu.vim" and "denops.vim".
+
+https://github.com/Shougo/ddu.vim
+https://github.com/vim-denops/denops.vim
+
+
+==============================================================================
+EXAMPLES                                   *ddu-source-input_history-examples*
+>vim
+	call ddu#custom#patch_global(#{
+	    \   sourceOptions: #{
+	    \     input_history: #{
+	    \       defaultAction: 'input',
+	    \     },
+	    \   }
+	    \ })
+
+==============================================================================
+SOURCE PARAMS                                *ddu-source-input_history-params*
+
+==============================================================================
+SOURCE ACTIONS                              *ddu-source-input_history-actions*
+
+                                        *ddu-source-input_history-action-edit*
+edit
+		Edit and change |ddu-option-input|.
+
+                                       *ddu-source-input_history-action-input*
+input
+		Change |ddu-option-input|.
+
+
+==============================================================================
+==============================================================================
+FAQ                                             *ddu-source-input_history-faq*
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:noet:
