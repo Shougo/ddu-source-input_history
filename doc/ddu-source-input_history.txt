@@ -9,8 +9,7 @@ Introduction		|ddu-source-input_history-introduction|
 Install			|ddu-source-input_history-install|
 Examples		|ddu-source-input_history-examples|
 Source Params		|ddu-source-input_history-params|
-Kind Actions		|ddu-kind-input_history-actions|
-Kind Params		|ddu-kind-input_history-params|
+Source Actions		|ddu-source-input_history-actions|
 FAQ			|ddu-source-input_history-faq|
 
 
