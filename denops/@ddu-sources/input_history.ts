@@ -14,9 +14,12 @@ import * as fn from "jsr:@denops/std@~7.6.0/function";
 
 type ActionData = {
   input: string;
+  name: string;
 };
 
-type Params = Record<string, never>;
+type Params = {
+  name: string;
+};
 
 export class Source extends BaseSource<Params> {
   override gather(args: {
@@ -39,6 +42,7 @@ export class Source extends BaseSource<Params> {
               word: hist,
               action: {
                 input: hist,
+                name: args.sourceParams.name,
               },
             };
           }),
@@ -57,9 +61,10 @@ export class Source extends BaseSource<Params> {
         kindParams: Params;
         actionParams: unknown;
       }) => {
-        // NOTE: It must quit current ddu
+        const name = (args.items[0].action as ActionData).name;
+
+        // NOTE: Restore current ddu
         await args.denops.dispatcher.pop(name, {
-          quit: true,
           sync: true,
         });
 
@@ -75,22 +80,14 @@ export class Source extends BaseSource<Params> {
             continue;
           }
 
-          await args.denops.call(
-            "ddu#ui#sync_action",
-            "updateOptions",
-            {
-              input,
-            },
-          );
+          await args.denops.dispatcher.updateOptions(name, {
+            input,
+          });
         }
 
-        await args.denops.call(
-          "ddu#ui#do_action",
-          "redraw",
-          {
-            method: "refreshItems",
-          },
-        );
+        await args.denops.dispatcher.redraw(name, {
+          method: "refreshItems",
+        });
 
         return Promise.resolve(ActionFlags.None);
       },
@@ -103,9 +100,10 @@ export class Source extends BaseSource<Params> {
         kindParams: Params;
         actionParams: unknown;
       }) => {
-        // NOTE: It must quit current ddu
+        const name = (args.items[0].action as ActionData).name;
+
+        // NOTE: Restore current ddu
         await args.denops.dispatcher.pop(name, {
-          quit: true,
           sync: true,
         });
 
@@ -113,22 +111,14 @@ export class Source extends BaseSource<Params> {
           const action = item?.action as ActionData;
           const input = action.input;
 
-          await args.denops.call(
-            "ddu#ui#sync_action",
-            "updateOptions",
-            {
-              input,
-            },
-          );
+          await args.denops.dispatcher.updateOptions(name, {
+            input,
+          });
         }
 
-        await args.denops.call(
-          "ddu#ui#do_action",
-          "redraw",
-          {
-            method: "refreshItems",
-          },
-        );
+        await args.denops.dispatcher.redraw(name, {
+          method: "refreshItems",
+        });
 
         return Promise.resolve(ActionFlags.None);
       },
@@ -136,6 +126,8 @@ export class Source extends BaseSource<Params> {
   };
 
   override params(): Params {
-    return {};
+    return {
+      name: "",
+    };
   }
 }
