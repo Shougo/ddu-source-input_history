@@ -65,7 +65,7 @@ export class Source extends BaseSource<Params> {
         actionParams: unknown;
       }) => {
         if (args.items.length === 0) {
-          return Promise.resolve(ActionFlags.None);
+          return ActionFlags.None;
         }
 
         const name = (args.items[0].action as ActionData).name;
@@ -96,7 +96,7 @@ export class Source extends BaseSource<Params> {
           method: "refreshItems",
         });
 
-        return Promise.resolve(ActionFlags.None);
+        return ActionFlags.None;
       },
     },
     input: {
@@ -108,7 +108,7 @@ export class Source extends BaseSource<Params> {
         actionParams: unknown;
       }) => {
         if (args.items.length === 0) {
-          return Promise.resolve(ActionFlags.None);
+          return ActionFlags.None;
         }
 
         const name = (args.items[0].action as ActionData).name;
@@ -131,7 +131,7 @@ export class Source extends BaseSource<Params> {
           method: "refreshItems",
         });
 
-        return Promise.resolve(ActionFlags.None);
+        return ActionFlags.None;
       },
     },
   };
