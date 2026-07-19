@@ -20,6 +20,8 @@ type Params = {
   name: string;
 };
 
+const MAX_HISTORY_ITEMS = 1000;
+
 export class Source extends BaseSource<Params> {
   override gather(args: {
     denops: Denops;
@@ -30,10 +32,12 @@ export class Source extends BaseSource<Params> {
     return new ReadableStream({
       async start(controller) {
         const histnr = await fn.histnr(args.denops, "input");
-        const indices = Array.from({ length: histnr }, (_, i) => i + 1);
-        const hists = await Promise.all(
-          indices.map((i) => fn.histget(args.denops, "input", i)),
-        );
+        const count = Math.min(histnr, MAX_HISTORY_ITEMS);
+        const hists = [] as string[];
+
+        for (let i = histnr - count + 1; i <= histnr; i++) {
+          hists.push(await fn.histget(args.denops, "input", i));
+        }
 
         controller.enqueue(
           hists.reverse().map((hist) => {
@@ -60,6 +64,10 @@ export class Source extends BaseSource<Params> {
         kindParams: Params;
         actionParams: unknown;
       }) => {
+        if (args.items.length === 0) {
+          return Promise.resolve(ActionFlags.None);
+        }
+
         const name = (args.items[0].action as ActionData).name;
 
         // NOTE: Restore current ddu
@@ -99,6 +107,10 @@ export class Source extends BaseSource<Params> {
         kindParams: Params;
         actionParams: unknown;
       }) => {
+        if (args.items.length === 0) {
+          return Promise.resolve(ActionFlags.None);
+        }
+
         const name = (args.items[0].action as ActionData).name;
 
         // NOTE: Restore current ddu
